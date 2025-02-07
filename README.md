@@ -1,0 +1,2 @@
+# Melee Demo
+This is a demo C++ project built using [raylib](https://github.com/raysan5/raylib) with the goal to implement world rendering, first-person player controller, networking and other gameplay mechanics.
