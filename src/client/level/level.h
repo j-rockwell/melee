@@ -8,7 +8,7 @@
 #include "node.h"
 #include "../render/greedy_mesh.h"
 
-constexpr int LEVEL_WIDTH = 512;
+constexpr int LEVEL_WIDTH = 128;
 constexpr int LEVEL_HEIGHT = 128;
 constexpr int CHUNK_COUNT_X = LEVEL_WIDTH / CHUNK_WIDTH;
 constexpr int CHUNK_COUNT_Z = LEVEL_WIDTH / CHUNK_WIDTH;

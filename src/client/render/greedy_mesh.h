@@ -7,10 +7,13 @@
 
 #include <raylib.h>
 #include "../level/chunk.h"
+#include "../level/level.h"
+
+class GameLevel;
 
 class GreedyMesher {
 public:
-    static Mesh generateChunkMesh(const Chunk* chunk);
+    static Mesh generateChunkMesh(const GameLevel* level, const Chunk* chunk);
 };
 
 #endif //GREEDY_MESH_H

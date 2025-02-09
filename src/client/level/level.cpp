@@ -43,7 +43,7 @@ void GameLevel::generateChunkMeshes() {
 
     for (size_t i = 0; i < chunks.size(); i++) {
         if (chunks[i]) {
-            meshes[i] = GreedyMesher::generateChunkMesh(chunks[i]);
+            meshes[i] = GreedyMesher::generateChunkMesh(this, chunks[i]);
         }
     }
 }
