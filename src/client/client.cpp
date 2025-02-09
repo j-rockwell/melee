@@ -18,9 +18,8 @@
 
 GameClient::GameClient() {
     InitWindow(1280, 720, "Melee Game Demo");
-    SetTargetFPS(300);                                              // Need to cap this off because infinite FPS target
+    SetTargetFPS(1000);                                             // Need to cap this off because infinite FPS target
                                                                     // will make your shit EXPLODE!!!
-
     Camera3D camera;
     camera.position = { 0.0f, 132.0f, 0.0f };
     camera.target   = { 512.0f, 150.0f, 512.0f };

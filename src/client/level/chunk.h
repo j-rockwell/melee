@@ -9,7 +9,7 @@
 #include "node.h"
 
 constexpr int CHUNK_WIDTH = 16;
-constexpr int CHUNK_HEIGHT = 256;
+constexpr int CHUNK_HEIGHT = 128;
 constexpr int CHUNK_DEFAULT_GROUND_LEVEL = 64;
 
 class Chunk {
