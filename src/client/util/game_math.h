@@ -8,11 +8,6 @@
 #include <cmath>
 #include <raylib.h>
 
-/**
- * TODO: @deprecated - Stop using this
- * Use raylib_math.h instead. This was used back when there
- * was a weird linker issue that has since been resolved.
- */
 class MathHelper {
 public:
     static Vector3 NormalizeVector3D(Vector3 v) {

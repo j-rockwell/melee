@@ -35,17 +35,11 @@ void Chunk::setNode(const int x, const int y, const int z, const NodeType type) 
     }
 
     nodes[index(x, y, z)] = Node{type};
-    // printf("Set node at %i, %i, %i to %d\n", x, y, z, type);
 }
 
 void Chunk::generateStarterTerrain() {
     for (int x = 0; x < CHUNK_WIDTH; x++) {
         for (int z = 0; z < CHUNK_WIDTH; z++) {
-            if (x == 8 && z == 8) {
-                // TODO: remove this, render testing
-                setNode(x, CHUNK_DEFAULT_GROUND_LEVEL+1, z, STONE);
-            }
-
             // setNode(x, CHUNK_DEFAULT_GROUND_LEVEL+1, z, GRASS);
             setNode(x, CHUNK_DEFAULT_GROUND_LEVEL, z, STONE);
         }
