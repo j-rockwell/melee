@@ -6,6 +6,7 @@
 #define CLIENT_H
 
 #include "camera/camera_controller.h"
+#include "entity/player.h"
 #include "level/level.h"
 
 class GameClient {
@@ -13,10 +14,13 @@ public:
     GameClient();
     ~GameClient();
 
+    Player getPlayer() const { return *player; }
+
     void processLoop() const;
 
 private:
     GameLevel *currentLevel;
+    Player *player;
     CameraController *cameraController;
 
     void processInputs() const;

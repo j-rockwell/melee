@@ -4,6 +4,7 @@
 
 #include <raylib.h>
 #include "client.h"
+#include "entity/player.h"
 #include "level/level.h"
 #include "render/greedy_mesh.h"
 #include "render/wireframe.h"
@@ -31,11 +32,16 @@ GameClient::GameClient() {
     currentLevel = new GameLevel("dev_level");
     currentLevel->generateStarterScene();
 
+    player = new Player("steven", true);
+
     DisableCursor();
     SetMousePosition(GetScreenWidth() / 2, GetScreenHeight() / 2);
 }
 
 GameClient::~GameClient() {
+    delete cameraController;
+    delete currentLevel;
+
     CloseWindow();
 }
 
@@ -59,6 +65,10 @@ void GameClient::processInputs() const {
     if (IsKeyDown(KEY_SPACE)) {
         cameraController->updateCameraY(true);
     }
+
+    // TODO: remove hack to test player movement rendering
+    player->setPosition(cameraController->getCamera().position);
+    player->setRotation(cameraController->getCamera().target);
 }
 
 void GameClient::printDebugToScreen() const {
@@ -81,6 +91,14 @@ void GameClient::processRender() const {
 
     BeginMode3D(cameraController->getCamera());
 
+    // render a capsule to signify the player
+    if (player) {
+        const Vector3 capStart = Vector3({player->getPosition().x+5, player->getPosition().y-2.0f, player->getPosition().z});
+        const Vector3 capEnd = Vector3({player->getPosition().x+5, player->getPosition().y, player->getPosition().z});
+        DrawCapsule(capStart, capEnd, 1.0f, 64.0f, 3.0f, RED);
+    }
+
+    // test chunk rendering with meshes
     for (int cz = 0; cz < CHUNK_COUNT_Z; cz++) {
         for (int cx = 0; cx < CHUNK_COUNT_X; cx++) {
             const Chunk* chunk = currentLevel->getChunkAt(cx, cz);
