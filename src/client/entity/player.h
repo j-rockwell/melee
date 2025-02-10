@@ -7,6 +7,8 @@
 #include <raylib.h>
 #include <string>
 
+#include "../controller/player_movement_controller.h"
+
 /*
  * Possible fields?
  * ID
@@ -18,27 +20,25 @@
 
 class Player {
 public:
-    Player(const std::string& name, bool local);
+    Player(std::string  name, bool local);
     ~Player();
 
     std::string getName() { return name; }
-    Vector3 getPosition() const { return position; }
+    Vector3 getPosition() const { return movementController->getPosition(); }
+    Vector3 getVelocity() const { return movementController->getVelocity(); }
+    Camera3D getCamera() const { return movementController->getCamera(); }
+    PlayerMovementController getMovementController() const { return *movementController; };
     bool isLocal() const { return local; }
     bool isDead() const { return health <= 0.0f; }
 
-    void setPosition(const Vector3& pos);
-    void setRotation(const Vector3& rot);
-    void tick(float deltaTime);
+    void setPosition(const Vector3& pos) { movementController->setPosition(pos); }
+    void tick(float deltaTime) const;
 
 protected:
     std::string name;
     float health;
-    Vector3 position;
-    Vector3 rotation;
-    Vector3 velocity;
     bool local;
+    PlayerMovementController* movementController;
 };
-
-
 
 #endif //PLAYER_H

@@ -21,13 +21,6 @@ GameClient::GameClient() {
     InitWindow(1280, 720, "Melee Game Demo");
     SetTargetFPS(1000);                                             // Need to cap this off because infinite FPS target
                                                                     // will make your shit EXPLODE!!!
-    Camera3D camera;
-    camera.position = { 0.0f, 132.0f, 0.0f };
-    camera.target   = { 512.0f, 150.0f, 512.0f };
-    camera.up = { 0.0f, 1.0f, 0.0f };
-    camera.fovy = 90.0f;
-    camera.projection = CAMERA_PERSPECTIVE;
-    cameraController = new CameraController(camera);
 
     currentLevel = new GameLevel("dev_level");
     currentLevel->generateStarterScene();
@@ -39,7 +32,6 @@ GameClient::GameClient() {
 }
 
 GameClient::~GameClient() {
-    delete cameraController;
     delete currentLevel;
 
     CloseWindow();
@@ -47,28 +39,9 @@ GameClient::~GameClient() {
 
 void GameClient::processLoop() const {
     while (!WindowShouldClose()) {
-        processInputs();
         processRender();
+        tickEntities();
     }
-}
-
-void GameClient::processInputs() const {
-    // mouse movement for flycam
-    const Vector2 mouseDelta = GetMouseDelta();
-    cameraController->updateMouse(mouseDelta);
-
-    // allow up/down travel (raylib fps camera supports WASD out of the box)
-    if (IsKeyDown(KEY_LEFT_SHIFT)) {
-        cameraController->updateCameraY(false);
-    }
-
-    if (IsKeyDown(KEY_SPACE)) {
-        cameraController->updateCameraY(true);
-    }
-
-    // TODO: remove hack to test player movement rendering
-    player->setPosition(cameraController->getCamera().position);
-    player->setRotation(cameraController->getCamera().target);
 }
 
 void GameClient::printDebugToScreen() const {
@@ -77,9 +50,15 @@ void GameClient::printDebugToScreen() const {
     DrawText(TextFormat("Allocated Nodes: %d", currentLevel->getNodeCount()), 10, 40, 12, GRAY);
     DrawText(TextFormat("FPS: %i", GetFPS()), 10, 55, 12, GRAY);
     DrawText(TextFormat("Current Coordinates - X: %i, Y: %i, Z: %i",
-        (int)cameraController->getCamera().position.x,
-        (int)cameraController->getCamera().position.y,
-        (int)cameraController->getCamera().position.z), 10, 70, 12, GRAY);
+        (int)player->getPosition().x,
+        (int)player->getPosition().y,
+        (int)player->getPosition().z), 10, 70, 12, GRAY);
+}
+
+void GameClient::tickEntities() const {
+    if (player) {
+        player->tick(GetFrameTime());
+    }
 }
 
 void GameClient::processRender() const {
@@ -89,14 +68,11 @@ void GameClient::processRender() const {
     // TODO: remove or make this toggleable
     printDebugToScreen();
 
-    BeginMode3D(cameraController->getCamera());
-
-    // render a capsule to signify the player
-    if (player) {
-        const Vector3 capStart = Vector3({player->getPosition().x+5, player->getPosition().y-2.0f, player->getPosition().z});
-        const Vector3 capEnd = Vector3({player->getPosition().x+5, player->getPosition().y, player->getPosition().z});
-        DrawCapsule(capStart, capEnd, 1.0f, 64.0f, 3.0f, RED);
+    if (player == nullptr) {
+        return;
     }
+
+    BeginMode3D(player->getCamera());
 
     // test chunk rendering with meshes
     for (int cz = 0; cz < CHUNK_COUNT_Z; cz++) {

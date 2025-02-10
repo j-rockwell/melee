@@ -24,6 +24,8 @@ add_executable(melee src/main.cpp
         src/client/render/wireframe.h
         src/client/entity/player.cpp
         src/client/entity/player.h
+        src/client/controller/player_movement_controller.cpp
+        src/client/controller/player_movement_controller.h
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)

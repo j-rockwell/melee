@@ -21,9 +21,8 @@ public:
 private:
     GameLevel *currentLevel;
     Player *player;
-    CameraController *cameraController;
 
-    void processInputs() const;
+    void tickEntities() const;
     void processRender() const;
     void printDebugToScreen() const;
 };
