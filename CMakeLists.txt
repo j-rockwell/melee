@@ -16,8 +16,6 @@ add_executable(melee src/main.cpp
         src/client/level/chunk.h
         src/client/client.cpp
         src/client/client.h
-        src/client/camera/camera_controller.cpp
-        src/client/camera/camera_controller.h
         src/client/util/game_math.h
         src/client/render/greedy_mesh.cpp
         src/client/render/greedy_mesh.h

@@ -5,7 +5,6 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include "camera/camera_controller.h"
 #include "entity/player.h"
 #include "level/level.h"
 
